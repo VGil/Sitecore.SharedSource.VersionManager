@@ -58,9 +58,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\VersionManager.aspx.cs">
+      <DependentUpon>VersionManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\VersionManager.aspx.designer.cs">
+      <DependentUpon>VersionManager.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Config\Include\Sitecore.SharedSource.VersionManager.config" />
+    <Content Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\VersionManager.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\css\" />
+    <Folder Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

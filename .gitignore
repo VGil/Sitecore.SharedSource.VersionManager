@@ -110,6 +110,7 @@ upload/
 sitecore_files/
 layouts/
 sitecore/
+data/
 App_Config/
 
 

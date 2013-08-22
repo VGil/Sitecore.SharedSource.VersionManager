@@ -13,22 +13,35 @@ namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
 {
 	public class SitecoreEditorContext
 	{
+	    public SitecoreEditorContext(string id, string language, string database)
+	    {
+            try
+            {
+                Id = ID.Parse(id);
+                Language = LanguageManager.GetLanguage(language);
+                Database = Database.GetDatabase(database);
+                Item = Database.GetItem(Id, Language, new Version(Version));
+                Version = Item.Version.Number;
+                IsValid = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error loading sitecore editor context.", ex, this);
+                IsValid = false;
+            }
+        }
+
 		public SitecoreEditorContext()
+            : this(
+                HttpContext.Current.Request.QueryString["id"], 
+                HttpContext.Current.Request.QueryString["language"], 
+                HttpContext.Current.Request.QueryString["database"])
 		{
-			try
-			{
-				Id = ID.Parse(HttpContext.Current.Request.QueryString["id"]);
-				Language = LanguageManager.GetLanguage(HttpContext.Current.Request.QueryString["language"]);
-				Version = int.Parse(HttpContext.Current.Request.QueryString["version"]);
-				Database = Database.GetDatabase(HttpContext.Current.Request.QueryString["database"]);
-				Item = Database.GetItem(Id, Language, new Version(Version));
-				IsValid = true;
-			}
-			catch (Exception ex)
-			{
-				Logger.Error("Error loading sitecore editor context.", ex, this);
-				IsValid = false;
-			}
+		    int version;
+		    if (int.TryParse(HttpContext.Current.Request.QueryString["version"], out version))
+		    {
+		        Version = version;
+		    }
 		}
 
 		public ID Id { get; protected set; }

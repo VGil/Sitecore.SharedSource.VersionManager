@@ -4,6 +4,22 @@
 	background-color: #cccccc;
 }
 
+textarea {
+    width: 100%;
+    font: 8pt tahoma;
+}
+
+.clear {
+    clear: both;
+}
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
 .sitecore-version-manager table {
 white-space: inherit;
 line-height: inherit;
@@ -19,18 +35,24 @@ text-align: left;
 	vertical-align: central;
 	padding: 2px;
 }
+
+.from {
+    width: 40px;
+}
+
 .sitecore-version-manager table {
 border-collapse: inherit;
 border-spacing: inherit;
 border-color: inherit;
 }
 
-.version-statistic, .settings, .log {
+.version-statistic, .settings{
 	border-radius: 5px;
 	background-color: #f7f7f7;
 	padding: 10px;
 	margin-bottom: 10px;
 }
+
 .clear-lang {
 	background-color: #a52a2a;
     border-radius: 4px;
@@ -42,13 +64,22 @@ border-color: inherit;
 	margin-left: 20px;
 }
 .log {
-	font: 8pt tahoma;
+	width: 100%;
+    margin-top: 2px;
+    border-radius: 4px;
 }
 .percent {
 	width: 85%;
 }
 .process {
-	
+	background-color: #228b22;
+    border-radius: 4px;
+	padding: 1px;
+	cursor: pointer;
+	color: #f7f7f7;
+	width: 82px;
+	text-align: center;
+    margin-top: 5px;
 }
 .lang-name {
 	width: 40px;
@@ -62,9 +93,15 @@ border-color: inherit;
 }
 
 .progressbar div {
-   background-color: #4169e1;
+   background-color: #228b22;
    width: 40%; /* Adjust with JavaScript */
    height: 10px;
    border-radius: 5px;
 }
 
+.section-capture {
+    margin-bottom: 2px;
+    margin-left: 5px;
+    color: #f7f7f7;
+    font: 8pt tahoma;
+}

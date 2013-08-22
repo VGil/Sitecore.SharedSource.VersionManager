@@ -48,6 +48,17 @@ namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
                 this);
         }
 
+        public void Clear(Language language, bool reccursive)
+        {
+            Logger.Info(string.Format(
+                   "Clear item versions started... Item '{0}', Language '{1}', Database '{2}', Reccursive '{3}'.",
+                   _context.Item.Paths.FullPath,
+                   language.Name,
+                   _context.Database.Name,
+                   reccursive),
+               this);
+        }
+
         private IEnumerable<Language> Languages
         {
             get

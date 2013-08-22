@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Services;
+using Sitecore.Data.Managers;
 using Sitecore.SharedSource.VersionManager.SitecoreEditor;
 
 namespace Sitecore.SharedSource.VersionManager.Services
@@ -28,6 +29,14 @@ namespace Sitecore.SharedSource.VersionManager.Services
             var context = new SitecoreEditorContext(id, language, database);
             var manager = new VersionService(context);
             manager.GetItemStatistics(reccursive);
+        }
+
+        [WebMethod]
+        public void Clear(string id, string language, string database, bool reccursive)
+        {
+            var context = new SitecoreEditorContext(id, language, database);
+            var manager = new VersionService(context);
+            manager.Clear(LanguageManager.GetLanguage(language), reccursive);
         }
     }
 }

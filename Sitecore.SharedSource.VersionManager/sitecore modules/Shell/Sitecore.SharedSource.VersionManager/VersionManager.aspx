@@ -6,20 +6,13 @@
 	<link href="/sitecore modules/Shell/Sitecore.SharedSource.VersionManager/css/version-manager.css" rel="stylesheet"/>
 	<script src="/sitecore modules/Shell/Sitecore.SharedSource.VersionManager/js/jquery-1.6.4.min.js" type="text/javascript"></script>
 	<script src="/sitecore modules/Shell/Sitecore.SharedSource.VersionManager/js/jquery.signalR-1.1.3.min.js" type="text/javascript"></script>
+	<script src="/sitecore modules/Shell/Sitecore.SharedSource.VersionManager/js/version-manager.js" type="text/javascript"></script>
 	<script src="/signalr/hubs"></script>
 	
 	<script type="text/javascript">
 		jQuery(function () {
-			var logger = jQuery.connection.versionManagerHub;
-
-			logger.client.logMessage = function (msg) {
-			    var logArea = jQuery("#log-control");
-			    logArea.append(msg + "\n");
-			    logArea.scrollTop(logArea[0].scrollHeight - logArea.height());
-			};
-
-			jQuery.connection.hub.start();
-		    jQuery("#log-control").append("Version manager module.\n");
+		    var manager = new VersionManager();
+		    manager.logMessage("Version manager module has been initialized.");
 		});
 	</script>
 	

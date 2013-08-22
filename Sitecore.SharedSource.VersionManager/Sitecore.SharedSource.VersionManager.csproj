@@ -94,7 +94,9 @@
     </Compile>
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Logging\InitializeSignalR.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Logging\Logger.cs" />
-    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Logging\LogHub.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\VersionManagerHub.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\SitecoreEditor\LanguageData.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\SitecoreEditor\SitecoreEditorContext.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\VersionManager.aspx.cs">
       <DependentUpon>VersionManager.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -104,15 +106,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Config\Include\Sitecore.SharedSource.VersionManager.config" />
+    <Content Include="App_Config\Include\Sitecore.SharedSource.VersionManager.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="packages.config" />
+    <Content Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\css\version-manager.css" />
     <Content Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\js\jquery-1.6.4.min.js" />
     <Content Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\js\jquery.signalR-1.1.3.min.js" />
+    <Content Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\js\version-manager.js" />
     <Content Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\log.aspx" />
     <Content Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\VersionManager.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\css\" />
+    <Folder Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Domain\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

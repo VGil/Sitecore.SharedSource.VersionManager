@@ -1,7 +1,6 @@
-﻿using System.Web.Routing;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 
-namespace Sitecore.SharedSource.VersionManager.Logging
+namespace Sitecore.SharedSource.VersionManager.Hubs
 {
 	public class VersionManagerHub : Hub
 	{

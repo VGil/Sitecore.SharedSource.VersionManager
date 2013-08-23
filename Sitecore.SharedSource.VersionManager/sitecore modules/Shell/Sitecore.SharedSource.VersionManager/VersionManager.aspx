@@ -12,14 +12,13 @@
 	<script type="text/javascript">
 		jQuery(function () {
 		    var manager = new VersionManager();
-		    manager.logMessage("Version manager module has been initialized.");
 		});
 	</script>
 	
 </head>
 <body>
 	<div class="sitecore-version-manager">
-	    <input type="hidden" name="itemId" value="<%=EditorContext.Id.ToString() %>"/>
+	    <input type="hidden" name="itemId" value="<%=EditorContext.Id.Guid.ToString() %>"/>
 	    <input type="hidden" name="language" value="<%=EditorContext.Language.Name %>"/>
 	    <input type="hidden" name="version" value="<%=EditorContext.Version.ToString() %>"/>
 	    <input type="hidden" name="database" value="<%=EditorContext.Database.Name %>"/>
@@ -42,7 +41,7 @@
 				</tr>
 				<% foreach (var l in Manager.GetItemStatistics(false)){%>
 				
-					<tr id="<%=l.Name%>_<%=EditorContext.Id.ToString()%>">
+					<tr id="<%=l.Name%>_<%=EditorContext.Id.Guid.ToString()%>">
 						<td><img src="/temp/IconCache/<%=l.Flag%>"/></td>
 						<td><div class="lang-name"><%=l.Name%></div></td>
 						<td class="percent">
@@ -51,9 +50,9 @@
 							</div>
 						</td>
 						<td class="percent_number">(<%=l.Percents.ToString("#0.0", CultureInfo.InvariantCulture) %>%)</td>
-						<td><div class="from"><input type="radio" name="from" <%=EditorContext.Language.Name == l.Name ? "checked" : "" %>/></div></td>
-						<td><div><input type="checkbox" name="to"/></div></td>
-						<td><div class="clear-lang" id="<%=l.Name%>_clear">Clear</div></td>
+						<td><div class="from"><input type="radio" value="<%=l.Name%>" name="from" <%=EditorContext.Language.Name == l.Name ? "checked" : "" %>/></div></td>
+						<td><div><input type="checkbox" name="to" value="<%=l.Name%>" /></div></td>
+						<td><div class="clear-lang" id="<%=l.Name%>">Clear</div></td>
 					</tr>
 
 				<%} %>

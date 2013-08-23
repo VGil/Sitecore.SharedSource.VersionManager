@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Sitecore.Data;
 using Sitecore.Data.Managers;
 using Sitecore.Globalization;
-using Sitecore.SharedSource.VersionManager.Logging;
+using Sitecore.SharedSource.VersionManager.Hubs;
 
 namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
 {
@@ -37,7 +38,7 @@ namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
         public void Process(string from, IEnumerable<string> to, bool reccursive, bool @override, bool exact)
         {
             Logger.Info(string.Format(
-                    "Start processing. Item '{0}', From '{1}', To {2},  Database '{3}', Reccursive '{4}', Override '{5}', Exact '{6}'.", 
+                    "Start processing. Item '{0}', From '{1}', To ('{2}'),  Database '{3}', Reccursive '{4}', Override '{5}', Exact '{6}'.", 
                     _context.Item.Paths.FullPath,
                     from, 
                     string.Join("', '", to),
@@ -57,6 +58,12 @@ namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
                    _context.Database.Name,
                    reccursive),
                this);
+
+	        for (var i = 0.0; i <= 100; i+= 0.1)
+	        {
+				Thread.Sleep(5);
+				Statistics.StatisticsChange(language, _context.Id.Guid, (float)i);
+	        }
         }
 
         private IEnumerable<Language> Languages

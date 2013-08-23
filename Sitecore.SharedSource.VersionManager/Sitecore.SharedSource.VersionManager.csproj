@@ -85,9 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Logging\InitializeSignalR.cs" />
-    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Logging\Logger.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\Statistics.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\InitializeSignalR.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\Logger.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\VersionManagerHub.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Services\ServiceCallResult.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Services\VMService.asmx.cs">
       <DependentUpon>VMService.asmx</DependentUpon>
       <SubType>Component</SubType>

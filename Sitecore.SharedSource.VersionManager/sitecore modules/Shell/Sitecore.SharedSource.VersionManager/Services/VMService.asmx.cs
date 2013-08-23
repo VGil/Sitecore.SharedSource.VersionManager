@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Services;
 using Sitecore.Data.Managers;
+using Sitecore.SharedSource.VersionManager.Hubs;
 using Sitecore.SharedSource.VersionManager.SitecoreEditor;
 
 namespace Sitecore.SharedSource.VersionManager.Services
@@ -16,27 +17,54 @@ namespace Sitecore.SharedSource.VersionManager.Services
     public class VMService : WebService
     {
         [WebMethod]
-        public void Process(string id, string language, string database, string from, string to, bool reccursive, bool @override, bool exact)
+		public ServiceCallResult Process(string id, string database, string from, string to, bool reccursive, bool @override, bool exact)
         {
-            var context = new SitecoreEditorContext(id, language, database);
-            var manager = new VersionService(context);
-            manager.Process(from, to.Split(new []{","}, StringSplitOptions.RemoveEmptyEntries), reccursive, @override, exact);
+	        try
+	        {
+		        var context = new SitecoreEditorContext(id, database);
+		        var manager = new VersionService(context);
+		        manager.Process(from, to.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries), reccursive, @override, exact);
+		        return new ServiceCallResult {Success = true};
+	        }
+	        catch (Exception ex)
+	        {
+				Logger.Error("'Process' Service method call error.", ex, this);
+		        return new ServiceCallResult {Success = false, Error = ex.Message};
+	        }
         }
 
         [WebMethod]
-        public void Stats(string id, string language, string database, bool reccursive)
+		public ServiceCallResult Stats(string id, string database, bool reccursive)
         {
-            var context = new SitecoreEditorContext(id, language, database);
-            var manager = new VersionService(context);
-            manager.GetItemStatistics(reccursive);
+	        try
+	        {
+		        var context = new SitecoreEditorContext(id, database);
+		        var manager = new VersionService(context);
+		        manager.GetItemStatistics(reccursive);
+		        return new ServiceCallResult {Success = true};
+	        }
+	        catch (Exception ex)
+	        {
+		        Logger.Error("'Stats' Service method call error.", ex, this);
+		        return new ServiceCallResult {Success = false, Error = ex.Message};
+	        }
         }
 
         [WebMethod]
-        public void Clear(string id, string language, string database, bool reccursive)
+		public ServiceCallResult Clear(string id, string language, string database, bool reccursive)
         {
-            var context = new SitecoreEditorContext(id, language, database);
-            var manager = new VersionService(context);
-            manager.Clear(LanguageManager.GetLanguage(language), reccursive);
+	        try
+	        {
+		        var context = new SitecoreEditorContext(id, language, database);
+		        var manager = new VersionService(context);
+		        manager.Clear(LanguageManager.GetLanguage(language), reccursive);
+		        return new ServiceCallResult {Success = true};
+	        }
+	        catch (Exception ex)
+	        {
+		        Logger.Error("'Clear' Service method call error.", ex, this);
+		        return new ServiceCallResult {Success = false, Error = ex.Message};
+	        }
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Globalization;
 using Microsoft.AspNet.SignalR;
 using Sitecore.Diagnostics;
 
-namespace Sitecore.SharedSource.VersionManager.Logging
+namespace Sitecore.SharedSource.VersionManager.Hubs
 {
 	public class Logger
 	{

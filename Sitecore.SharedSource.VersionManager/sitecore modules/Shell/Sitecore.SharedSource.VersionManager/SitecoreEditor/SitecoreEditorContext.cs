@@ -1,26 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Data.Managers;
 using Sitecore.Globalization;
-using Sitecore.SharedSource.VersionManager.Logging;
-using Version = Sitecore.Data.Version;
+using Sitecore.SharedSource.VersionManager.Hubs;
 
 namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
 {
 	public class SitecoreEditorContext
 	{
+		public SitecoreEditorContext(string id, string database)
+		{
+			try
+			{
+				Id = ID.Parse(id);
+				Database = Database.GetDatabase(database);
+				Item = Database.GetItem(Id);
+				Version = Item.Version.Number;
+				IsValid = true;
+			}
+			catch (Exception ex)
+			{
+				Logger.Error("Error loading sitecore editor context.", ex, this);
+				IsValid = false;
+			}
+		}
+
 	    public SitecoreEditorContext(string id, string language, string database)
+			: this(id, database)
 	    {
             try
             {
-                Id = ID.Parse(id);
                 Language = LanguageManager.GetLanguage(language);
-                Database = Database.GetDatabase(database);
-                Item = Database.GetItem(Id, Language, new Version(Version));
+                Item = Database.GetItem(Id, Language);
                 Version = Item.Version.Number;
                 IsValid = true;
             }

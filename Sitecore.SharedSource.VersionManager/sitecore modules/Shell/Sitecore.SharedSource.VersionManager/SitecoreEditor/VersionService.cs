@@ -4,6 +4,7 @@ using System.Threading;
 using Sitecore.Data;
 using Sitecore.Data.Managers;
 using Sitecore.Globalization;
+using Sitecore.SharedSource.VersionManager.Commands;
 using Sitecore.SharedSource.VersionManager.Hubs;
 
 namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
@@ -18,7 +19,21 @@ namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
             _context = context;
         }
 
-        public IEnumerable<VersionStatistics> GetItemStatistics(bool reccursive)
+        public IEnumerable<VersionStatistics> GetLanguagePreview(bool reccursive)
+        {
+            var preview = Languages.Select(x => new VersionStatistics
+                {
+                    Name = x.Name,
+                    Flag = GetFlag(x),
+                    Percents = 0
+                });
+
+            LoadStatistics(reccursive);
+
+            return preview;
+        }
+
+        public void LoadStatistics(bool reccursive)
         {
             Logger.Info(string.Format(
                     "Recalculating statistics... Item '{0}', Database '{1}', Reccursive '{2}'.",
@@ -27,12 +42,8 @@ namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
                     reccursive),
                 this);
 
-            return Languages.Select(x => new VersionStatistics
-                {
-                    Name = x.Name,
-                    Flag = GetFlag(x),
-                    Percents = GetFilledVersionsPercent(_context.Id, x)
-                });
+            var thread = new Thread(new LoadStatisticsCommand(_context.Item, reccursive).Evaluate);
+            thread.Start();
         }
 
         public void Process(string from, IEnumerable<string> to, bool reccursive, bool @override, bool exact)
@@ -58,37 +69,27 @@ namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
                    _context.Database.Name,
                    reccursive),
                this);
-
-	        for (var i = 0.0; i <= 100; i+= 0.1)
-	        {
-				Thread.Sleep(5);
-				Statistics.StatisticsChange(language, _context.Id.Guid, (float)i);
-	        }
         }
 
         private IEnumerable<Language> Languages
         {
-            get
-            {
-                var languages = LanguageManager.GetLanguages(_context.Database)
+            get { return GetLanguages(_context.Database); }
+        }
+
+        public static IEnumerable<Language> GetLanguages(Database database)
+        {
+            var languages = LanguageManager.GetLanguages(database)
                      .OrderBy(x => x.Name)
                      .ToList();
 
-                if (languages.Any(x => x.Name == "en"))
-                {
-                    var en = languages.First(x => x.Name == "en");
-                    languages.Remove(en);
-                    languages.Insert(0, en);
-                }
-
-                return languages;
+            if (languages.Any(x => x.Name == "en"))
+            {
+                var en = languages.First(x => x.Name == "en");
+                languages.Remove(en);
+                languages.Insert(0, en);
             }
-        }
 
-        private float GetFilledVersionsPercent(ID itemId, Language language)
-        {
-            var v = _context.Database.GetItem(itemId, language);
-            return v.Versions.GetVersions().Any() ? 100 : 0;
+            return languages;
         }
 
         public static string GetFlag(Language language)

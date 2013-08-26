@@ -40,7 +40,7 @@ namespace Sitecore.SharedSource.VersionManager.Services
 	        {
 		        var context = new SitecoreEditorContext(id, database);
 		        var manager = new VersionService(context);
-		        manager.GetItemStatistics(reccursive);
+                manager.LoadStatistics(reccursive);
 		        return new ServiceCallResult {Success = true};
 	        }
 	        catch (Exception ex)

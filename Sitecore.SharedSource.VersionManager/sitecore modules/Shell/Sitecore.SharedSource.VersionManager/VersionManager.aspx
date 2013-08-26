@@ -22,6 +22,13 @@
 	    <input type="hidden" name="language" value="<%=EditorContext.Language.Name %>"/>
 	    <input type="hidden" name="version" value="<%=EditorContext.Version.ToString() %>"/>
 	    <input type="hidden" name="database" value="<%=EditorContext.Database.Name %>"/>
+        
+        <%--<div class="section-capture">Command</div>
+        <div class="settings">
+			<div class="left"><input type="radio" name="reccursive" value="Copy"/> Copy</div>
+			<div class="left"><input type="radio" name="reccursive" value="Remove"/> Remove</div>
+            <div class="clear"></div>
+		</div>--%>
 
 		<div class="section-capture">Common settings</div>
         <div class="settings">
@@ -36,10 +43,10 @@
 					<td>Filled percent</td>
 					<td></td>
 					<td>From</td>
-					<td>To</td>
+					<td><a id="toOptions" href="javascript:void(0);">To</a></td>
 					<td></td>
 				</tr>
-				<% foreach (var l in Manager.GetItemStatistics(false)){%>
+				<% foreach (var l in Manager.GetLanguagePreview(false)){%>
 				
 					<tr id="<%=l.Name%>_<%=EditorContext.Id.Guid.ToString()%>">
 						<td><img src="/temp/IconCache/<%=l.Flag%>"/></td>
@@ -51,7 +58,7 @@
 						</td>
 						<td class="percent_number">(<%=l.Percents.ToString("#0.0", CultureInfo.InvariantCulture) %>%)</td>
 						<td><div class="from"><input type="radio" value="<%=l.Name%>" name="from" <%=EditorContext.Language.Name == l.Name ? "checked" : "" %>/></div></td>
-						<td><div><input type="checkbox" name="to" value="<%=l.Name%>" /></div></td>
+						<td><div><input type="checkbox" name="to" value="<%=l.Name%>" <%=EditorContext.Language.Name == l.Name ? "disabled" : "" %>/></div></td>
 						<td><div class="clear-lang" id="<%=l.Name%>">Clear</div></td>
 					</tr>
 

@@ -18,6 +18,7 @@ textarea {
 
 .left {
     float: left;
+    margin-right: 15px;
 }
 
 .sitecore-version-manager table {

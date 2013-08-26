@@ -12,6 +12,7 @@
 	this.exact = this.versionManager.find("input[name=exact]");
 	this.from = this.versionManager.find("input[name=from]");
 	this.to = this.versionManager.find("input[name=to]");
+	this.toOptions = this.versionManager.find("#toOptions");
 	
     this.init(this);
 };
@@ -38,6 +39,10 @@ VersionManagerMethods = {
 		_this.versionManager.find(".process").each(function() {
 			jQuery(this).bind("click", function() { _this.processCopyVersions(); });
 		});
+		_this.from.each(function() {
+		    jQuery(this).bind("click", function () { _this.uncheckTo(jQuery(this)); });
+		});
+		_this.toOptions.bind("click", function () { _this.inverseTo(); });
 
 		_this.logMessage("Version manager module has been initialized.");
 	},
@@ -49,10 +54,10 @@ VersionManagerMethods = {
 	
 	statisticsChange: function(language, itemId, percent) {
 		_this.versionManager.find("#" + language + "_" + itemId)
-			.find(".progressbar div").attr("style", "width:" + percent + "%;");
+			.find(".progressbar div").attr("style", "width:" + percent.toFixed(2) + "%;");
 		
 		_this.versionManager.find("#" + language + "_" + itemId)
-			.find(".percent_number").html("(" + percent + "%)");
+			.find(".percent_number").html("(" + percent.toFixed(1) + "%)");
 	},
 
 	postToWebService: function(serviceMethod, parameters) {
@@ -118,7 +123,7 @@ VersionManagerMethods = {
 	},
 
 	getCopyFrom: function() {
-		var to = _this.from.filter(':checked').val();
+		var to = _this.from.filter(":checked").val();
 
 		if (to == "") {
 			alert("Unable to find language to copy from. Make sure you habve selected it.");
@@ -145,6 +150,39 @@ VersionManagerMethods = {
 
 		return result;
 	},
+	
+    inverseTo : function() {
+        var checked = false;
+
+        _this.to.each(function () {
+            if (!jQuery(this).parent().parent().parent().find("input[name=from]").filter(":checked").val() != "") {
+                if (jQuery(this).is(":checked")) {
+                    checked = true;
+                }
+            }
+        });
+        
+        _this.to.each(function () {
+            if (!jQuery(this).parent().parent().parent().find("input[name=from]").filter(":checked").val() != "") {
+                if (checked) {
+                    jQuery(this).removeAttr("checked");
+                } else {
+                    jQuery(this).attr("checked", "checked");
+                }
+            } else {
+                jQuery(this).removeAttr("checked");
+            }
+        });
+    },
+	
+    uncheckTo : function(from) {
+        var fromCorrTo = from.parent().parent().parent().find("input[name=to]");
+        fromCorrTo.removeAttr("checked");
+        _this.to.each(function() {
+            jQuery(this).removeAttr("disabled");
+        });
+        fromCorrTo.attr("disabled", "disabled");
+    }
 };
 
 VersionManager.prototype = VersionManagerMethods;

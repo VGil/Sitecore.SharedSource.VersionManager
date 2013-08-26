@@ -85,6 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\AbstractCommand.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\StatisticsBasedCommand.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\CopyCommand.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\LoadStatisticsCommand.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\RemoveVersionsCommand.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\Statistics.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\InitializeSignalR.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\Logger.cs" />

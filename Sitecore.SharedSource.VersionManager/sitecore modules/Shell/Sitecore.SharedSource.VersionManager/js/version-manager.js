@@ -24,8 +24,8 @@ VersionManagerMethods = {
 		_this = manager;
 		// Subscribe SignalR listeners...
 		_this.hub.client.logMessage = function(msg) { _this.logMessage(msg); };
-		_this.hub.client.statisticsChange = function(language, itemId, percent) {
-			 _this.statisticsChange(language, itemId, percent);
+		_this.hub.client.statisticsChange = function (rowId, percent, itemsProcessed) {
+		    _this.statisticsChange(rowId, percent, itemsProcessed);
 		};
 		// Start listening to signalR hub.
 		jQuery.connection.hub.start();
@@ -42,9 +42,10 @@ VersionManagerMethods = {
 		_this.from.each(function() {
 		    jQuery(this).bind("click", function () { _this.uncheckTo(jQuery(this)); });
 		});
-		_this.toOptions.bind("click", function () { _this.inverseTo(); });
 
+		_this.toOptions.bind("click", function () { _this.inverseTo(); });
 		_this.logMessage("Version manager module has been initialized.");
+		_this.reccursive.bind("change", function () { _this.reloadStatistics(); });
 	},
 
 	logMessage: function(msg) {
@@ -52,12 +53,12 @@ VersionManagerMethods = {
 		_this.log.scrollTop(this.log[0].scrollHeight - this.log.height());
 	},
 	
-	statisticsChange: function(language, itemId, percent) {
-		_this.versionManager.find("#" + language + "_" + itemId)
-			.find(".progressbar div").attr("style", "width:" + percent.toFixed(2) + "%;");
-		
-		_this.versionManager.find("#" + language + "_" + itemId)
-			.find(".percent_number").html("(" + percent.toFixed(1) + "%)");
+	statisticsChange: function(rowId, percent, itemsProcessed) {
+	    var languageRow = _this.versionManager.find(rowId);
+
+	    languageRow.find(".progressbar div").attr("style", "width:" + percent.toFixed(2) + "%;");
+	    languageRow.find(".percent_number").html("(" + percent.toFixed(1) + "%)");
+	    languageRow.find(".items-processed").html(itemsProcessed);
 	},
 
 	postToWebService: function(serviceMethod, parameters) {
@@ -182,7 +183,7 @@ VersionManagerMethods = {
             jQuery(this).removeAttr("disabled");
         });
         fromCorrTo.attr("disabled", "disabled");
-    }
+    },
 };
 
 VersionManager.prototype = VersionManagerMethods;

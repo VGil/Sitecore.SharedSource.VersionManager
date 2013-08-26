@@ -31,8 +31,8 @@ color: inherit;
 text-align: left;
 	vertical-align: central;
 }
+
 .sitecore-version-manager table td {
-	
 	vertical-align: central;
 	padding: 2px;
 }
@@ -71,6 +71,18 @@ border-color: inherit;
 }
 .percent {
 	width: 85%;
+}
+
+td .items-processed {
+    width: 60px;
+}
+
+.items-processed {
+    text-align: center;
+}
+.items-processed {
+    text-align: center;
+    width: 20px;
 }
 .process {
 	background-color: #228b22;

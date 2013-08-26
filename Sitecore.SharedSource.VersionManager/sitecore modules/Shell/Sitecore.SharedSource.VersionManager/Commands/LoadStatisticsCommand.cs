@@ -27,8 +27,6 @@ namespace Sitecore.SharedSource.VersionManager.Commands
             TotalCount.Clear();
             ExistingCount.Clear();
 
-            Thread.Sleep(1000);
-
             Logger.Info(string.Format("Start reloading statistics for item '{0}'{1}", CurrentItem.Paths.FullPath, IsReccursive ? " reccursively": ""), this);
 
             foreach (var language in VersionService.GetLanguages(CurrentItem.Database))
@@ -39,7 +37,7 @@ namespace Sitecore.SharedSource.VersionManager.Commands
                 LoadStatistics(CurrentItem.Database.GetItem(CurrentItem.ID, language));
             }
 
-            Logger.Info(string.Format("Statistics for item '{0}'{1} has been reloaded.", CurrentItem.Paths.FullPath, IsReccursive ? " reccursively" : ""), this);
+            Logger.Info(string.Format("Statistics for item '{0}' has been reloaded{1}.", CurrentItem.Paths.FullPath, IsReccursive ? " reccursively" : ""), this);
         }
 
         public void LoadStatistics(Item currentItem)
@@ -50,7 +48,11 @@ namespace Sitecore.SharedSource.VersionManager.Commands
                 ExistingCount[currentItem.Language] += 1;
             }
 
-            Statistics.StatisticsChange(currentItem.Language, currentItem.ID.Guid, TotalCount[currentItem.Language], ExistingCount[currentItem.Language]);
+            Statistics.StatisticsChange(
+                currentItem.Language, 
+                currentItem.ID.Guid, 
+                TotalCount[currentItem.Language], 
+                ExistingCount[currentItem.Language]);
 
             if (IsReccursive)
             {

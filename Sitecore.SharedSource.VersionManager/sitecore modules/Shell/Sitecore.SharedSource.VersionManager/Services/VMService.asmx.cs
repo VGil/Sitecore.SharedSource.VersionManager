@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading;
 using System.Web.Services;
 using Sitecore.Data.Managers;
+using Sitecore.SharedSource.VersionManager.Commands;
 using Sitecore.SharedSource.VersionManager.Hubs;
 using Sitecore.SharedSource.VersionManager.SitecoreEditor;
 
@@ -39,8 +41,8 @@ namespace Sitecore.SharedSource.VersionManager.Services
 	        try
 	        {
 		        var context = new SitecoreEditorContext(id, database);
-		        var manager = new VersionService(context);
-                manager.LoadStatistics(reccursive);
+                var thread = new Thread(new LoadStatisticsCommand(context.Item, reccursive).Evaluate);
+                thread.Start();
 		        return new ServiceCallResult {Success = true};
 	        }
 	        catch (Exception ex)

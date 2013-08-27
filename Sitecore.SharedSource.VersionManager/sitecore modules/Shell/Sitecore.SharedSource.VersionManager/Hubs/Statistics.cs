@@ -15,8 +15,6 @@ namespace Sitecore.SharedSource.VersionManager.Hubs
 
 		public static void StatisticsChange(Language language, Guid id, float percent, int itemsProcessed)
 		{
-            Thread.Sleep(10);
-
 			StatisticsHubContext.Clients.All.statisticsChange(
                 "#" + language.Name + "_" + id, 
                 percent, 

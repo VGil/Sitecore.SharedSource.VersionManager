@@ -50,7 +50,7 @@ namespace Sitecore.SharedSource.VersionManager.Commands
 
             Statistics.StatisticsChange(
                 currentItem.Language, 
-                currentItem.ID.Guid, 
+                CurrentItem.ID.Guid, 
                 TotalCount[currentItem.Language], 
                 ExistingCount[currentItem.Language]);
 

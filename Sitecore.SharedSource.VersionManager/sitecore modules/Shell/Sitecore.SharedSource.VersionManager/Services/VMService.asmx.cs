@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading;
+using System.Linq;
 using System.Web.Services;
 using Sitecore.Data.Managers;
 using Sitecore.SharedSource.VersionManager.Commands;
@@ -21,51 +21,63 @@ namespace Sitecore.SharedSource.VersionManager.Services
         [WebMethod]
 		public ServiceCallResult Process(string id, string database, string from, string to, bool reccursive, bool @override, bool exact)
         {
-	        try
-	        {
-		        var context = new SitecoreEditorContext(id, database);
-		        var manager = new VersionService(context);
-		        manager.Process(from, to.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries), reccursive, @override, exact);
-		        return new ServiceCallResult {Success = true};
-	        }
-	        catch (Exception ex)
-	        {
-				Logger.Error("'Process' Service method call error.", ex, this);
-		        return new ServiceCallResult {Success = false, Error = ex.Message};
-	        }
+            return ExecuteCommand(() => delegate
+            {
+                var context = new SitecoreEditorContext(id, database);
+
+                var command = new CopyCommand(
+                    context.Item,
+                    LanguageManager.GetLanguage(from),
+                    to.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(LanguageManager.GetLanguage),
+                    reccursive,
+                    exact,
+                    @override);
+
+                command.Execute();
+            });
         }
 
         [WebMethod]
 		public ServiceCallResult Stats(string id, string database, bool reccursive)
         {
-	        try
-	        {
-		        var context = new SitecoreEditorContext(id, database);
-		        new LoadStatisticsCommand(context.Item, reccursive).Execute();
-		        return new ServiceCallResult {Success = true};
-	        }
-	        catch (Exception ex)
-	        {
-		        Logger.Error("'Stats' Service method call error.", ex, this);
-		        return new ServiceCallResult {Success = false, Error = ex.Message};
-	        }
+            return ExecuteCommand(() => delegate
+            {
+                var context = new SitecoreEditorContext(id, database);
+                var command = new LoadStatisticsCommand(context.Item, reccursive);
+
+                command.Execute();
+            });
         }
 
         [WebMethod]
 		public ServiceCallResult Clear(string id, string language, string database, bool reccursive)
         {
-	        try
-	        {
-		        var context = new SitecoreEditorContext(id, language, database);
-		        var manager = new VersionService(context);
-		        manager.Clear(LanguageManager.GetLanguage(language), reccursive);
-		        return new ServiceCallResult {Success = true};
-	        }
-	        catch (Exception ex)
-	        {
-		        Logger.Error("'Clear' Service method call error.", ex, this);
-		        return new ServiceCallResult {Success = false, Error = ex.Message};
-	        }
+            return ExecuteCommand(() => delegate
+            {
+                var context = new SitecoreEditorContext(id, database);
+
+                var command = new RemoveVersionsCommand(
+                    context.Item,
+                    LanguageManager.GetLanguage(language),
+                    reccursive);
+
+                command.Execute();
+            });
+        }
+
+        private ServiceCallResult ExecuteCommand(Func<Action> func)
+        {
+            try
+            {
+                func().Invoke();
+
+                return new ServiceCallResult { Success = true };
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Service method call error.", ex, this);
+                return new ServiceCallResult { Success = false, Error = ex.Message };
+            }
         }
     }
 }

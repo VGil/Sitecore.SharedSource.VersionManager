@@ -109,7 +109,6 @@ VersionManagerMethods = {
 	},
 
 	processCopyVersions: function() {
-		// Process(string id, string database, string from, string to, bool reccursive, bool @override, bool exact)
 		var sendInfo = JSON.stringify({
 			"id": _this.itemId,
 			"database": _this.database,
@@ -193,27 +192,24 @@ VersionManagerMethods = {
 				    jQuery(this).unbind("click");
 			    });
 			    _this.processButton.unbind("click");
-			    _this.processButton.addClass("lock");
 			    _this.reccursive.unbind("change");
-			    _this.reccursive.addClass("lock");
 			    _this.reccursive.attr("disabled", "disabled");
 			    _this.refresh.unbind("click");
+			    _this.reccursive.addClass("lock");
+			    _this.processButton.addClass("lock");
 			    _this.refresh.addClass("lock");
 		    } else {
-			    _this.reccursive.bind("change", function() { _this.reloadStatistics(); });
+		        _this.clearButtons.each(function () {
+		            jQuery(this).bind("click", function () { _this.removeItemVersions(jQuery(this)); });
+		            jQuery(this).removeClass("lock");
+		        });
+		        _this.reccursive.bind("change", function () { _this.reloadStatistics(); });
 			    _this.refresh.bind("click", function() { _this.reloadStatistics(); });
 			    _this.processButton.bind("click", function() { _this.processCopyVersions(); });
-
-			    _this.reccursive.removeClass("lock");
 			    _this.reccursive.removeAttr("disabled");
-
+			    _this.reccursive.removeClass("lock");
 			    _this.refresh.removeClass("lock");
 			    _this.processButton.removeClass("lock");
-
-			    _this.clearButtons.each(function() {
-				    jQuery(this).bind("click", function() { _this.removeItemVersions(jQuery(this)); });
-				    jQuery(this).removeClass("lock");
-			    });
 		    }
 	    }
     },

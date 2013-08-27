@@ -49,7 +49,7 @@
 				<tr>
 					<td></td>
 				</tr>
-				<% foreach (var l in Manager.GetLanguagePreview(false)){%>
+				<% foreach (var l in GetLanguagePreview()){%>
 				
 					<tr id="<%=l.Name%>_<%=EditorContext.Id.Guid.ToString()%>">
 						<td><img src="/temp/IconCache/<%=l.Flag%>"/></td>
@@ -60,7 +60,11 @@
 							</div>
 						</td>
 						<td class="percent_number">(<%=l.Percents.ToString("#0.0", CultureInfo.InvariantCulture) %>%)</td>
-						<td><div class="items-processed"><span class="existing">0</span>&nbsp;/&nbsp;<span class="total">0</span></div></td>
+						<td>
+						    <div class="items-processed">
+						        <span class="existing"><%=l.Existing %></span>&nbsp;/&nbsp;<span class="total"><%=l.Total %></span>
+						    </div>
+						</td>
 						<td><div class="from"><input type="radio" value="<%=l.Name%>" name="from" <%=EditorContext.Language.Name == l.Name ? "checked" : "" %>/></div></td>
 						<td><div><input type="checkbox" name="to" value="<%=l.Name%>" <%=EditorContext.Language.Name == l.Name ? "disabled" : "" %>/></div></td>
 						<td><div class="clear-lang" id="<%=l.Name%>">Clear</div></td>

@@ -86,7 +86,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\AbstractCommand.cs" />
-    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\StatisticsBasedCommand.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\CopyCommand.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\LoadStatisticsCommand.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\RemoveVersionsCommand.cs" />
@@ -99,9 +98,8 @@
       <DependentUpon>VMService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\SitecoreEditor\VersionStatistics.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\SitecoreEditor\LanguagePreview.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\SitecoreEditor\SitecoreEditorContext.cs" />
-    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\SitecoreEditor\VersionService.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\VersionManager.aspx.cs">
       <DependentUpon>VersionManager.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

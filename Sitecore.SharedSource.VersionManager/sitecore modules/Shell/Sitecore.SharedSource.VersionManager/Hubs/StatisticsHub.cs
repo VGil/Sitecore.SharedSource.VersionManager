@@ -15,14 +15,16 @@ namespace Sitecore.SharedSource.VersionManager.Hubs
 			get { return GlobalHost.ConnectionManager.GetHubContext<StatisticsHub>(); }
 		}
 
-		public static void StatisticsChange(Language language, Guid id, int totalCount, int existingCount)
+		public static void StatisticsChange(Language language, Guid id, float percent, int totalCount, int existingCount)
 		{
 			StatisticsHubContext.Clients.All.statisticsChange(
 				language.Name,
 				id.ToString(),
-				100 * (float)existingCount / totalCount,
+                percent,
 				existingCount,
 				totalCount);
+
+            Locker.LockUi(id);
 		}
 	}
 }

@@ -38,13 +38,15 @@
 		<div class="version-statistic">
 			<table>
 				<tr>
-					<td></td>
-					<td></td>
+					<td colspan="2"><a href="javascript:void(0);" id="reload-statistics" class="reload-statistics"><img src="/temp/IconCache/Applications/16x16/nav_refresh_green.png" style="margin-bottom:-4px"/> Reload</a></td>
 					<td>Filled percent</td>
 					<td></td>
-					<td>Items</td>
+					<td> Vers / Items</td>
 					<td>From</td>
 					<td><a id="toOptions" href="javascript:void(0);">To</a></td>
+					<td></td>
+				</tr>
+				<tr>
 					<td></td>
 				</tr>
 				<% foreach (var l in Manager.GetLanguagePreview(false)){%>
@@ -58,7 +60,7 @@
 							</div>
 						</td>
 						<td class="percent_number">(<%=l.Percents.ToString("#0.0", CultureInfo.InvariantCulture) %>%)</td>
-						<td><div class="items-processed">1</div></td>
+						<td><div class="items-processed"><span class="existing">0</span>&nbsp;/&nbsp;<span class="total">0</span></div></td>
 						<td><div class="from"><input type="radio" value="<%=l.Name%>" name="from" <%=EditorContext.Language.Name == l.Name ? "checked" : "" %>/></div></td>
 						<td><div><input type="checkbox" name="to" value="<%=l.Name%>" <%=EditorContext.Language.Name == l.Name ? "disabled" : "" %>/></div></td>
 						<td><div class="clear-lang" id="<%=l.Name%>">Clear</div></td>

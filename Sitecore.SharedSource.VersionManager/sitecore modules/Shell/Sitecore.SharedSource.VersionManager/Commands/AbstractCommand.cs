@@ -1,5 +1,8 @@
-﻿using Sitecore.Data.Items;
+﻿using System.Collections.Generic;
+using Sitecore.Data.Items;
+using Sitecore.Globalization;
 using Sitecore.SharedSource.VersionManager.Hubs;
+using Sitecore.SharedSource.VersionManager.SitecoreEditor;
 
 namespace Sitecore.SharedSource.VersionManager.Commands
 {
@@ -12,9 +15,23 @@ namespace Sitecore.SharedSource.VersionManager.Commands
             CurrentItem = currentItem;
         }
 
-        public virtual void Evaluate()
+        protected virtual void Evaluate()
         {
             Logger.Info(string.Format("Method {0}.Evaluate() is not implemented.", GetType().Name), this);
         }
+
+	    public void Execute()
+	    {
+			Locker.LockUi(CurrentItem.ID.Guid);
+
+		    Evaluate();
+
+			Locker.UnlockUi(CurrentItem.ID.Guid);
+	    }
+
+	    protected IEnumerable<Language> Languages
+	    {
+			get { return VersionService.GetLanguages(CurrentItem.Database); }
+	    }
     }
 }

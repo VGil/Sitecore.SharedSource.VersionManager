@@ -1,6 +1,8 @@
 ﻿VersionManager = function() {
 	this.serviceUrl = "/sitecore modules/Shell/Sitecore.SharedSource.VersionManager/Services/VMService.asmx";
-	this.hub = jQuery.connection.versionManagerHub;
+	this.loggerHub = jQuery.connection.loggerHub;
+	this.statisticsHub = jQuery.connection.statisticsHub;
+	this.lockHub = jQuery.connection.lockHub;
 	this.versionManager = jQuery(".sitecore-version-manager");
 	this.log = this.versionManager.find("#log-control");
 	this.itemId = this.versionManager.find("input[name=itemId]").val();
@@ -13,6 +15,9 @@
 	this.from = this.versionManager.find("input[name=from]");
 	this.to = this.versionManager.find("input[name=to]");
 	this.toOptions = this.versionManager.find("#toOptions");
+	this.refresh = this.versionManager.find("#reload-statistics");
+	this.clearButtons = this.versionManager.find(".clear-lang");
+	this.processButton = this.versionManager.find(".process");
 	
     this.init(this);
 };
@@ -23,29 +28,23 @@ VersionManagerMethods = {
 	init: function(manager) {
 		_this = manager;
 		// Subscribe SignalR listeners...
-		_this.hub.client.logMessage = function(msg) { _this.logMessage(msg); };
-		_this.hub.client.statisticsChange = function (rowId, percent, itemsProcessed) {
-		    _this.statisticsChange(rowId, percent, itemsProcessed);
+		_this.loggerHub.client.logMessage = function (msg) { _this.logMessage(msg); };
+		_this.lockHub.client.lockUi = function (itemId, lock) { _this.lockUi(itemId, lock); };
+		_this.statisticsHub.client.statisticsChange = function (language, itemId, percent, existing, total) {
+			_this.statisticsChange(language, itemId, percent, existing, total);
 		};
 		// Start listening to signalR hub.
 		jQuery.connection.hub.start();
 
-		// Reload stats on reccursive change
-
-		// Initialize button clicks.
-		_this.versionManager.find(".clear-lang").each(function() {
-			jQuery(this).bind("click", function() { _this.removeItemVersions(jQuery(this)); });
-		});
-		_this.versionManager.find(".process").each(function() {
-			jQuery(this).bind("click", function() { _this.processCopyVersions(); });
-		});
 		_this.from.each(function() {
 		    jQuery(this).bind("click", function () { _this.uncheckTo(jQuery(this)); });
 		});
-
+		
 		_this.toOptions.bind("click", function () { _this.inverseTo(); });
+		
+		_this.unlockUi();
+		
 		_this.logMessage("Version manager module has been initialized.");
-		_this.reccursive.bind("change", function () { _this.reloadStatistics(); });
 	},
 
 	logMessage: function(msg) {
@@ -53,12 +52,13 @@ VersionManagerMethods = {
 		_this.log.scrollTop(this.log[0].scrollHeight - this.log.height());
 	},
 	
-	statisticsChange: function(rowId, percent, itemsProcessed) {
-	    var languageRow = _this.versionManager.find(rowId);
+	statisticsChange: function (language, itemId, percent, existing, total) {
+	    var languageRow = _this.versionManager.find("#" + language + "_" + itemId);
 
 	    languageRow.find(".progressbar div").attr("style", "width:" + percent.toFixed(2) + "%;");
 	    languageRow.find(".percent_number").html("(" + percent.toFixed(1) + "%)");
-	    languageRow.find(".items-processed").html(itemsProcessed);
+	    languageRow.find(".items-processed .existing").html(existing);
+	    languageRow.find(".items-processed .total").html(total);
 	},
 
 	postToWebService: function(serviceMethod, parameters) {
@@ -184,6 +184,43 @@ VersionManagerMethods = {
         });
         fromCorrTo.attr("disabled", "disabled");
     },
+	
+    lockUi: function (itemId, lock) {
+	    if (itemId == _this.itemId) {
+		    if (lock) {
+			    _this.clearButtons.each(function() {
+				    jQuery(this).addClass("lock");
+				    jQuery(this).unbind("click");
+			    });
+			    _this.processButton.unbind("click");
+			    _this.processButton.addClass("lock");
+			    _this.reccursive.unbind("change");
+			    _this.reccursive.addClass("lock");
+			    _this.reccursive.attr("disabled", "disabled");
+			    _this.refresh.unbind("click");
+			    _this.refresh.addClass("lock");
+		    } else {
+			    _this.reccursive.bind("change", function() { _this.reloadStatistics(); });
+			    _this.refresh.bind("click", function() { _this.reloadStatistics(); });
+			    _this.processButton.bind("click", function() { _this.processCopyVersions(); });
+
+			    _this.reccursive.removeClass("lock");
+			    _this.reccursive.removeAttr("disabled");
+
+			    _this.refresh.removeClass("lock");
+			    _this.processButton.removeClass("lock");
+
+			    _this.clearButtons.each(function() {
+				    jQuery(this).bind("click", function() { _this.removeItemVersions(jQuery(this)); });
+				    jQuery(this).removeClass("lock");
+			    });
+		    }
+	    }
+    },
+	
+	unlockUi: function() {
+		_this.lockUi(_this.itemId, false);
+	},
 };
 
 VersionManager.prototype = VersionManagerMethods;

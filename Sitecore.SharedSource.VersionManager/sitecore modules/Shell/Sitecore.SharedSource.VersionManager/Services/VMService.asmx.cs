@@ -41,8 +41,7 @@ namespace Sitecore.SharedSource.VersionManager.Services
 	        try
 	        {
 		        var context = new SitecoreEditorContext(id, database);
-                var thread = new Thread(new LoadStatisticsCommand(context.Item, reccursive).Evaluate);
-                thread.Start();
+		        new LoadStatisticsCommand(context.Item, reccursive).Execute();
 		        return new ServiceCallResult {Success = true};
 	        }
 	        catch (Exception ex)

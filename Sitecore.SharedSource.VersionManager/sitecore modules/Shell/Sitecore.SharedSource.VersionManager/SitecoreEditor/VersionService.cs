@@ -42,8 +42,8 @@ namespace Sitecore.SharedSource.VersionManager.SitecoreEditor
                     reccursive),
                 this);
 
-            var thread = new Thread(new LoadStatisticsCommand(_context.Item, reccursive).Evaluate);
-            thread.Start();
+            var thread = new Thread(new LoadStatisticsCommand(_context.Item, reccursive).Execute);
+			thread.Start();
         }
 
         public void Process(string from, IEnumerable<string> to, bool reccursive, bool @override, bool exact)

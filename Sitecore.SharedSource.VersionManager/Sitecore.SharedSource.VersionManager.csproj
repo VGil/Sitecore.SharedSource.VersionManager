@@ -90,10 +90,10 @@
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\CopyCommand.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\LoadStatisticsCommand.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Commands\RemoveVersionsCommand.cs" />
-    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\Statistics.cs" />
-    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\InitializeSignalR.cs" />
-    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\Logger.cs" />
-    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\VersionManagerHub.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\LockHub.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\InitializeSignalR.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\LoggerHub.cs" />
+    <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Hubs\StatisticsHub.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Services\ServiceCallResult.cs" />
     <Compile Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Services\VMService.asmx.cs">
       <DependentUpon>VMService.asmx</DependentUpon>

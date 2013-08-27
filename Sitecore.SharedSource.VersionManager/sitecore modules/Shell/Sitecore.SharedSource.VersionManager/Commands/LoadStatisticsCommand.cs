@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using Sitecore.Data.Items;
 using Sitecore.Globalization;
 using Sitecore.SharedSource.VersionManager.Hubs;
-using Sitecore.SharedSource.VersionManager.SitecoreEditor;
 
 namespace Sitecore.SharedSource.VersionManager.Commands
 {
@@ -22,14 +20,14 @@ namespace Sitecore.SharedSource.VersionManager.Commands
             ExistingCount = new Dictionary<Language, int>();
         }
 
-        public override void Evaluate()
+        protected override void Evaluate()
         {
-            TotalCount.Clear();
+			TotalCount.Clear();
             ExistingCount.Clear();
 
             Logger.Info(string.Format("Start reloading statistics for item '{0}'{1}", CurrentItem.Paths.FullPath, IsReccursive ? " reccursively": ""), this);
 
-            foreach (var language in VersionService.GetLanguages(CurrentItem.Database))
+            foreach (var language in Languages)
             {
                 TotalCount.Add(language, 0);
                 ExistingCount.Add(language, 0);
@@ -37,7 +35,7 @@ namespace Sitecore.SharedSource.VersionManager.Commands
                 LoadStatistics(CurrentItem.Database.GetItem(CurrentItem.ID, language));
             }
 
-            Logger.Info(string.Format("Statistics for item '{0}' has been reloaded{1}.", CurrentItem.Paths.FullPath, IsReccursive ? " reccursively" : ""), this);
+			Logger.Info(string.Format("Statistics for item '{0}' has been reloaded{1}.", CurrentItem.Paths.FullPath, IsReccursive ? " reccursively" : ""), this);
         }
 
         public void LoadStatistics(Item currentItem)

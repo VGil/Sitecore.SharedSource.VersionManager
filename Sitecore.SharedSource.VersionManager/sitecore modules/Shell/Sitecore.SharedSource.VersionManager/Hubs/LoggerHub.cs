@@ -9,7 +9,7 @@ namespace Sitecore.SharedSource.VersionManager.Hubs
 	{
 	}
 
-	public class Logger
+	public static class Logger
 	{
 		private static IHubContext LogHubContext
 		{
@@ -22,7 +22,7 @@ namespace Sitecore.SharedSource.VersionManager.Hubs
 
 			LogHubContext.Clients.All.logMessage(string.Format(
 				"{0} INFO: {1}",
-				DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.InvariantCulture),
+				DateTime.Now.ToString("hh:mm:ss", CultureInfo.InvariantCulture),
 				message));
 		}
 
@@ -32,7 +32,7 @@ namespace Sitecore.SharedSource.VersionManager.Hubs
 
 			LogHubContext.Clients.All.logMessage(string.Format(
 				"{0} ERROR: {1}. {2}",
-				DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.InvariantCulture),
+				DateTime.Now.ToString("hh:mm:ss", CultureInfo.InvariantCulture),
 				message,
 				exception));
 		}

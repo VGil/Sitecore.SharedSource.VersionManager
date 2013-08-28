@@ -8,7 +8,7 @@ namespace Sitecore.SharedSource.VersionManager.Hubs
 	{
 	}
 
-	public class Statistics
+	public static class Statistics
 	{
 		private static IHubContext StatisticsHubContext
 		{

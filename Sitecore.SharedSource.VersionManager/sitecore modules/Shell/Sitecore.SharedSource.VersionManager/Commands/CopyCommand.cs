@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Globalization;
 
@@ -41,46 +42,55 @@ namespace Sitecore.SharedSource.VersionManager.Commands
             var targetItem = currentItem.Versions.GetLatestVersion();
             var initialItem = currentItem.Database.GetItem(currentItem.ID, From);
 
-            if (Override)
-            {
-            }
-            else
-            {
-            }
-
             if (Exact)
             {
+				foreach (var initialVersion in initialItem.Versions.GetVersions())
+				{
+					var targetVersion = initialVersion.Database.GetItem(initialVersion.ID, From, initialVersion.Version);
+				}
             }
             else
             {
                 initialItem = initialItem.Versions.GetLatestVersion();
                 if (initialItem.Versions.Count > 0)
                 {
+	                var isNew = false;
                     if (targetItem.Versions.GetVersions().Length == 0)
                     {
                         targetItem = targetItem.Versions.AddVersion();
-						CopyFields(initialItem, targetItem);
+	                    isNew = true;
                     }
+
+					CopyFields(initialItem, targetItem, Override || isNew);
                 }
             }
         }
 
-        private static void CopyFields(BaseItem initialVersion, Item targetVersion)
+        private static void CopyFields(BaseItem initialVersion, Item targetVersion, bool @override)
         {
-            var sourceFields = initialVersion.Fields
-            .Where(x => !string.IsNullOrEmpty(x.Name) && (!x.Name.StartsWith("__") || _requiredSystemFieldsToCopy.Contains(x.Name)))
-            .ToList();
+	        var fields = GetItemFields(initialVersion);
 
-            using (new EditContext(targetVersion))
+	        using (new EditContext(targetVersion))
             {
-                foreach (var sourceField in sourceFields)
+                foreach (var sourceField in fields)
                 {
-                    targetVersion.Fields[sourceField.Name].SetValue(sourceField.Value, false);
+					if (@override || targetVersion[sourceField.ID] == string.Empty)
+	                {
+		                targetVersion.Fields[sourceField.ID].SetValue(sourceField.Value, false);
+	                }
                 }
             }
         }
 
-        protected static IEnumerable<string> _requiredSystemFieldsToCopy = new List<string>
+	    private static IEnumerable<Field> GetItemFields(BaseItem initialVersion)
+	    {
+			return initialVersion.Fields
+				.Where(x => 
+					!string.IsNullOrEmpty(x.Name) && 
+					(!x.Name.StartsWith("__") || _requiredSystemFieldsToCopy.Contains(x.Name)));
+	    }
+
+	    protected static IEnumerable<string> _requiredSystemFieldsToCopy = new List<string>
         {
             "__Valid from", 
             "__Valid to", 

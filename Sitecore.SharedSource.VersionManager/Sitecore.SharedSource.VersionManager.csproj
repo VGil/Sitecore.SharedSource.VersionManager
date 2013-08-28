@@ -353,9 +353,7 @@
     <Content Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Services\VMService.asmx" />
     <Content Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\VersionManager.aspx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="sitecore modules\Shell\Sitecore.SharedSource.VersionManager\Domain\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

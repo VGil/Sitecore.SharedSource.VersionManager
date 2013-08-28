@@ -83,7 +83,7 @@
         <div class="settings">
             <div class="log"><textarea rows="6" readonly="readonly" id="log-control"></textarea></div>
             <div>
-                <div class="process right">Process</div>
+                <div class="process right">Copy</div>
                 <div class="clear"></div>
             </div>
         </div>

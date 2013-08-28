@@ -38,7 +38,7 @@
 		<div class="version-statistic">
 			<table>
 				<tr>
-					<td colspan="2"><a href="javascript:void(0);" id="reload-statistics" class="reload-statistics"><img src="/temp/IconCache/Applications/16x16/nav_refresh_green.png" style="margin-bottom:-4px"/> Reload</a></td>
+					<td colspan="2"><a href="javascript:void(0);" id="reload-statistics" class="reload-statistics"><img src="/sitecore modules/Shell/Sitecore.SharedSource.VersionManager/css/img/Applications/16x16/nav_refresh_green.png" style="margin-bottom:-4px"/> Reload</a></td>
 					<td>Filled percent</td>
 					<td></td>
 					<td> Vers / Items</td>
@@ -52,7 +52,7 @@
 				<% foreach (var l in GetLanguagePreview()){%>
 				
 					<tr id="<%=l.Name%>_<%=EditorContext.Id.Guid.ToString()%>">
-						<td><img src="/temp/IconCache/<%=l.Flag%>"/></td>
+						<td><img src="/sitecore modules/Shell/Sitecore.SharedSource.VersionManager/css/img/<%=l.Flag%>"/></td>
 						<td><div class="lang-name"><%=l.Name%></div></td>
 						<td class="percent">
 							<div class="progressbar">

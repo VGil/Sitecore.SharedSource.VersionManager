@@ -26,6 +26,16 @@ namespace Sitecore.SharedSource.VersionManager.Commands
             get { return To; }
         }
 
+		protected override string LogFormat
+		{
+			get { return "From: '{0}', To: '{1}', Exact: '{2}', Override: '{3}'"; }
+		}
+
+		protected override object[] LogParameters
+		{
+			get { return new object[] { From, string.Join(", ", To.Select(x => x.ToString())), Exact, Override }; }
+		}
+
         protected override void Evaluate(Item currentItem)
         {
             var targetItem = currentItem.Versions.GetLatestVersion();
@@ -49,9 +59,8 @@ namespace Sitecore.SharedSource.VersionManager.Commands
                     if (targetItem.Versions.GetVersions().Length == 0)
                     {
                         targetItem = targetItem.Versions.AddVersion();
+						CopyFields(initialItem, targetItem);
                     }
-
-                    CopyFields(initialItem, targetItem);
                 }
             }
         }

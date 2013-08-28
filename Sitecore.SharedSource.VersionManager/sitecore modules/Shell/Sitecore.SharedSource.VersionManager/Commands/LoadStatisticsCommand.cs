@@ -1,5 +1,4 @@
 ﻿using Sitecore.Data.Items;
-using Sitecore.SharedSource.VersionManager.Hubs;
 
 namespace Sitecore.SharedSource.VersionManager.Commands
 {
@@ -10,8 +9,13 @@ namespace Sitecore.SharedSource.VersionManager.Commands
         {
         }
 
-        protected override void Evaluate(Item currentItem)
-        {
-        }
+	    protected override void Evaluate(Item currentItem)
+	    {
+	    }
+
+		protected override bool RelativeStatistics
+		{
+			get { return true; }
+		}
     }
 }

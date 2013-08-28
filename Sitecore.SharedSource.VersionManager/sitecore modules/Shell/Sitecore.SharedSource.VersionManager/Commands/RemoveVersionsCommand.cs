@@ -20,16 +20,15 @@ namespace Sitecore.SharedSource.VersionManager.Commands
 
         protected override void Evaluate(Item currentItem)
         {
-            if (currentItem.Versions.Count > 0)
+			if (currentItem.Versions.GetVersions().Length > 0)
             {
                 currentItem.Versions.RemoveAll(false);
-                ExistingCount[Language] -= 1;
             }
         }
 
         protected override bool RelativeStatistics
         {
-            get { return true; }
+            get { return false; }
         }
     }
 }
